@@ -48,7 +48,7 @@ public class MoveVertex : MonoBehaviour
            
 
             displacedVertices[i].y = Terrain.activeTerrain.SampleHeight(displacedVertices[i]);
-            displacedVertices[i].y += 0.1f;
+            displacedVertices[i].y += 0.25f;
 
             if (displacedVertices[i].y < lowestHeight) lowestHeight = displacedVertices[i].y;
 
@@ -56,7 +56,7 @@ public class MoveVertex : MonoBehaviour
             
         }
         mesh.vertices = displacedVertices;
-
+        mesh.RecalculateNormals();
     }
 
     // Update is called once per frame

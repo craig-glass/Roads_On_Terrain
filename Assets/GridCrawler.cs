@@ -70,7 +70,7 @@ public class GridCrawler : MonoBehaviour
 
             };           
 
-            yield return new WaitForSeconds(0.5f);
+            yield return null;
         }
         
     }
