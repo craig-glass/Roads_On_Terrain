@@ -10,7 +10,7 @@ public class GridCrawler : MonoBehaviour
     Vector3Int crawlerPos = new Vector3Int(500, 0, 500);
     public GameObject road;
     int crawlerCount = 0;
-    int crawlerMax = 2000;
+    int crawlerMax = 1000;
 
     enum Movement 
     {
@@ -81,7 +81,7 @@ public class GridCrawler : MonoBehaviour
     {
         movement = moveDirection;
         crawlerPos += directionVector;
-        if (crawlerPos.z >= depth || crawlerPos.x >= width || crawlerPos.z <= 0 || crawlerPos.x <= 0 || crawlerCount == 300 || crawlerCount == 600 || crawlerCount == 900 || crawlerCount == 1200 || crawlerCount == 1500)
+        if (crawlerPos.z >= depth || crawlerPos.x >= width || crawlerPos.z <= 0 || crawlerPos.x <= 0)
         {
             crawlerPos = new Vector3Int(Random.Range(10, 900), 0, Random.Range(10, 900));
             return;
