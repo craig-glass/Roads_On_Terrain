@@ -23,12 +23,15 @@ public class RoadVoronoi : MonoBehaviour
 
     IEnumerator GenerateRoads()
     {
-        Voronoi.GenerateVoronoi(20, 1000, 1000);
+        int startPos = Random.Range(1, 500);
+        int endPos = Random.Range(startPos + 250, width);
 
-        foreach (KeyValuePair<Vector2Int, int> location in Voronoi.locations)
-        {
-            Instantiate(redCube, new Vector3(location.Key.x, 100, location.Key.y), Quaternion.identity);
-        }
+        Voronoi.GenerateVoronoi(50, startPos, endPos, endPos);
+
+        //foreach (KeyValuePair<Vector2Int, int> location in Voronoi.locations)
+        //{
+        //    Instantiate(redCube, new Vector3(location.Key.x, 100, location.Key.y), Quaternion.identity);
+        //}
 
         foreach (Vector2 roadPos in Voronoi.roadmap)
         {
