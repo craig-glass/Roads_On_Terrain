@@ -10,7 +10,7 @@ public class RoadVoronoi : MonoBehaviour
     public GameObject greenCube;
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         StartCoroutine(GenerateRoads());
     }
