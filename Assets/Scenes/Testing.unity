@@ -386,7 +386,7 @@ MonoBehaviour:
   perlinPersistance: 8
   perlinHeightScale: 0.09
   smoothAmount: 60
-  redCube: {fileID: 3900802490353518503, guid: 8805f2bf7d427b443ab7078854e06d4d, type: 3}
+  redCube: {fileID: 8860745167044761396, guid: 4e9a68a5d9f572847b2ac1b658429aa4, type: 3}
   greenCube: {fileID: 8860745167044761396, guid: 4e9a68a5d9f572847b2ac1b658429aa4, type: 3}
 --- !u!154 &1640233938
 TerrainCollider:

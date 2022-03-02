@@ -93,12 +93,15 @@ public static class Voronoi
                     movedUp = false;
                 }
 
-                if (roadPlacement != voronoiMap[x, y])
+                Debug.Log("roadplacement before: " + roadPlacement + "  voronoimap: " + voronoiMap[x, y]);
+
+                if (roadPlacement != voronoiMap[x, y] || roadPlacement != voronoiMap[x, y - 1] && voronoiMap[x, y - 1] != 0)
                 {
                     Debug.Log("roadplacement: " + roadPlacement + "  voronoimap: " + voronoiMap[x, y]);
+                    Debug.Log("roadplacement - 1: " + voronoiMap[x, y - 1]);
 
 
-                    if (firstIteration)
+                    if (firstIteration && roadPlacement != voronoiMap[x, y])
                     {
                         testlist = new List<Vector2>();
                         testdict.Add(new Vector2(roadPlacement, voronoiMap[x, y]), testlist);
@@ -113,7 +116,7 @@ public static class Voronoi
                         firstIteration = false;
                     }
                   
-                    if (!testdict.ContainsKey(new Vector2(roadPlacement, voronoiMap[x, y])))
+                    if (!testdict.ContainsKey(new Vector2(roadPlacement, voronoiMap[x, y])) && roadPlacement != voronoiMap[x, y])
                     {
                         testlist = new List<Vector2>();
                         testlist.Add(new Vector2(x, y));
@@ -131,6 +134,14 @@ public static class Voronoi
                         if (testdict.TryGetValue(new Vector2(roadPlacement, voronoiMap[x, y]), out List<Vector2> value))
                         {
                             value.Add(new Vector2(x, y));
+                        }
+                        else if (testdict.TryGetValue(new Vector2(voronoiMap[x, y], voronoiMap[x, y - 1]), out List<Vector2> othervalue))
+                        {
+                            othervalue.Add(new Vector2(x, y));
+                        }
+                        else if (testdict.TryGetValue(new Vector2(voronoiMap[x, y - 1], voronoiMap[x, y]), out List<Vector2> thatvalue))
+                        {
+                            thatvalue.Add(new Vector2(x, y));
                         }
 
                     }
@@ -153,7 +164,7 @@ public static class Voronoi
                     //    }
                     //}
 
-
+                
                     roadPlacement = voronoiMap[x, y];
 
                     roads.Add(new Vector2(x, y));
