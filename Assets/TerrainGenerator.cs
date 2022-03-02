@@ -37,11 +37,14 @@ public class TerrainGenerator : MonoBehaviour
         Perlin();
         SmoothTerrain();
         StartCoroutine(GenerateRoads());
+
+        
     }
     // Start is called before the first frame update
     void Start()
     {
-
+        // This line is to be used with urbanstreetmap roads
+        //Instantiate(redCube, new Vector3(500, 100, 500), Quaternion.identity);
     }
 
     // Update is called once per frame
@@ -245,17 +248,49 @@ public class TerrainGenerator : MonoBehaviour
         int startPos = Random.Range(1, 500);
         int endPos = Random.Range(startPos + 250, width);
 
-        Voronoi.GenerateVoronoi(50, startPos, endPos, endPos);
+        Voronoi.GenerateVoronoi(20, 1, 500, 500);
+        int qCount = 0;
+        foreach (KeyValuePair<Vector2, List<Vector2>> val in Voronoi.testdict)
+        {
+            Debug.Log("testdict = " + val.Key);
+            
+            //Debug.Log("quaternion [" + qCount + "] = " + Voronoi.q[qCount]);
+            for (int l = 0; l < val.Value.Count; l++)
+            {
+                float posfloat = 1 / (float)val.Value.Count;
 
-        //foreach (KeyValuePair<Vector2Int, int> location in Voronoi.locations)
+                Vector2 position = Vector2.Lerp(val.Value[0], val.Value[val.Value.Count - 1], l * posfloat);
+                Vector3 finalPosition = new Vector3(position.x, 50, position.y);
+
+                Instantiate(greenCube, finalPosition, Voronoi.q[qCount]);
+            }
+            qCount++;
+        }
+        
+        
+
+        foreach (KeyValuePair<int, Vector2Int> location in Voronoi.locations)
+        {
+            Instantiate(redCube, new Vector3(location.Value.x, 100, location.Value.y), Quaternion.identity);
+        }
+
+        //foreach (Vector2 roadPos in Voronoi.roadmap[0])
         //{
-        //    Instantiate(redCube, new Vector3(location.Key.x, 100, location.Key.y), Quaternion.identity);
+        //    Instantiate(greenCube, new Vector3(roadPos.x, 100, roadPos.y), Voronoi.q);
+        //    //yield return new WaitForSeconds(1);
         //}
 
-        foreach (Vector2 roadPos in Voronoi.roadmap)
-        {
-            Instantiate(greenCube, new Vector3(roadPos.x, 100, roadPos.y), Quaternion.identity);
-        }
+        //for (int i = 1; i <= Voronoi.roadmap[0].Count; i++)
+        //{
+        //    int roadcount = Voronoi.roadmap[0].Count;
+        //    float posfloat = 1 / (float)roadcount;
+
+
+        //    Vector2 position = Vector2.Lerp(Voronoi.roadmap[0][0], Voronoi.roadmap[0][Voronoi.roadmap[0].Count - 1], i * posfloat);
+        //    Vector3 newPosition = new Vector3(position.x, 50, position.y);
+        //    Instantiate(greenCube, newPosition, Voronoi.q);
+        //}
+       
         yield return null;
     }
 }

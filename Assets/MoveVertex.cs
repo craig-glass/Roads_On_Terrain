@@ -56,7 +56,7 @@ public class MoveVertex : MonoBehaviour
             
         }
         mesh.vertices = displacedVertices;
-        mesh.RecalculateNormals();
+        //mesh.RecalculateNormals();
     }
 
     // Update is called once per frame
