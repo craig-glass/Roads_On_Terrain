@@ -66,7 +66,6 @@ public static class Voronoi
         roadmap = new List<List<Vector2>>();
         bool firstIteration = true;
 
-        bool getDirection = true;
         for (int y = startPos; y < height; y++)
         {
             bool movedUp = true;
@@ -93,14 +92,8 @@ public static class Voronoi
                     movedUp = false;
                 }
 
-                Debug.Log("roadplacement before: " + roadPlacement + "  voronoimap: " + voronoiMap[x, y]);
-
                 if (roadPlacement != voronoiMap[x, y] || roadPlacement != voronoiMap[x, y - 1] && voronoiMap[x, y - 1] != 0)
                 {
-                    Debug.Log("roadplacement: " + roadPlacement + "  voronoimap: " + voronoiMap[x, y]);
-                    Debug.Log("roadplacement - 1: " + voronoiMap[x, y - 1]);
-
-
                     if (firstIteration && roadPlacement != voronoiMap[x, y])
                     {
                         testlist = new List<Vector2>();
@@ -145,25 +138,6 @@ public static class Voronoi
                         }
 
                     }
-
-
-
-                    //if (getDirection)
-                    //{
-                    //    direction = locations[roadPlacement] - locations[voronoiMap[x, y]];
-
-                    //    Debug.DrawLine(new Vector3(locations[roadPlacement].x, 50, locations[roadPlacement].y), new Vector3(locations[voronoiMap[x, y]].x, 50, locations[voronoiMap[x, y]].y), Color.red);
-
-                    //    direction = Vector2.Perpendicular(direction);
-                    //    float angle = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg;
-
-                    //    q = Quaternion.Euler(0f, angle, 0f);
-                    //    if (direction.x != 0)
-                    //    {
-                    //        getDirection = false;
-                    //    }
-                    //}
-
                 
                     roadPlacement = voronoiMap[x, y];
 
@@ -171,16 +145,7 @@ public static class Voronoi
                     roadmap.Add(roads);
 
                 }
-
-                //if (roadPlacement != voronoiMap[x, y - 1] && voronoiMap[x, y - 1] != 0)
-                //{
-                //    Debug.Log("............................................roadplacement: " + roadPlacement + "  voronoimap: " + voronoiMap[x, y]);
-                //    roadPlacement = voronoiMap[x, y];
-                //    roads.Add(new Vector2(x, y));
-                //    roadmap.Add(roads);
-                //}
             }
-
         }
     }
 }

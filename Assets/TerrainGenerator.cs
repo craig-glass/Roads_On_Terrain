@@ -33,9 +33,9 @@ public class TerrainGenerator : MonoBehaviour
         terrain = GetComponent<Terrain>();
         terrainData = Terrain.activeTerrain.terrainData;
 
-        MidPointDisplacement();
-        Perlin();
-        SmoothTerrain();
+        //MidPointDisplacement();
+        //Perlin();
+        //SmoothTerrain();
         StartCoroutine(GenerateRoads());
 
         
@@ -248,24 +248,20 @@ public class TerrainGenerator : MonoBehaviour
         int startPos = Random.Range(1, 500);
         int endPos = Random.Range(startPos + 250, width);
 
-        Voronoi.GenerateVoronoi(10, 1, 1000, 1000);
+        Voronoi.GenerateVoronoi(15, startPos, endPos, endPos);
         int qCount = 0;
         foreach (KeyValuePair<Vector2, List<Vector2>> val in Voronoi.testdict)
         {
-            Debug.Log("testdict = " + val.Key);
             
             //Debug.Log("quaternion [" + qCount + "] = " + Voronoi.q[qCount]);
             for (int l = 0; l < val.Value.Count; l++)
             {
-                Debug.Log("testlist[" + l + "] = " + val.Value[l]);
-
                 float posfloat = 1 / (float)val.Value.Count;
 
                 Vector2 position = Vector2.Lerp(val.Value[0], val.Value[val.Value.Count - 1], l * posfloat);
                 Vector3 finalPosition = new Vector3(position.x, 50, position.y);
 
                 Instantiate(greenCube, finalPosition, Voronoi.q[qCount]);
-                //yield return new WaitForSeconds(0.5f);
             }
             
             qCount++;
