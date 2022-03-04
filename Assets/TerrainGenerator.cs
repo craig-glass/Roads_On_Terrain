@@ -7,6 +7,7 @@ public class TerrainGenerator : MonoBehaviour
 {
     Terrain terrain;
     TerrainData terrainData;
+    public GameObject lSystem;
     public float roughness = 2.0f;
     public float heightDampenerPower = 2.0f;
 
@@ -33,11 +34,11 @@ public class TerrainGenerator : MonoBehaviour
         terrain = GetComponent<Terrain>();
         terrainData = Terrain.activeTerrain.terrainData;
 
-        //MidPointDisplacement();
-        //Perlin();
-        //SmoothTerrain();
+        MidPointDisplacement();
+        Perlin();
+        SmoothTerrain();
         StartCoroutine(GenerateRoads());
-
+        
         
     }
     // Start is called before the first frame update
@@ -290,7 +291,7 @@ public class TerrainGenerator : MonoBehaviour
         //    Vector3 newPosition = new Vector3(position.x, 50, position.y);
         //    Instantiate(greenCube, newPosition, Voronoi.q);
         //}
-       
+
         yield return null;
     }
 }

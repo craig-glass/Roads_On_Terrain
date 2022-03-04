@@ -27,13 +27,14 @@ public class LSystem
         turtle = new Turtle(initialPos);
     }
 
-    public void DrawSystem()
+    public IEnumerator DrawSystem()
     {
         foreach (var instruction in sentence)
         {
             if (turtleCommands.TryGetValue(instruction.ToString(), out var command))
             {
                 command(turtle);
+                yield return null;
             }
         }
     }
@@ -65,4 +66,6 @@ public class LSystem
         return newSentence;
 
     }
+
+    
 }

@@ -28,6 +28,7 @@ namespace DefaultNamespace
             }
         }
 
+        GameObject road;
         public Vector3 Position { get; private set; }
         public Quaternion Orientation { get; private set; }
 
@@ -36,13 +37,14 @@ namespace DefaultNamespace
         public Turtle(Vector3 position)
         {
             Position = position;
+            road = (GameObject)Resources.Load("Prefabs/RoadSquare0", typeof(GameObject));
         }
 
         public void Translate(Vector3 delta)
         {
             delta = Orientation * delta;
-
-            Debug.DrawLine(Position, Position + delta, Color.black, 100f);
+            GameObject.Instantiate(road, Position, Orientation);
+            //Debug.DrawLine(Position, Position + delta, Color.black, 100f);
             Position += delta;
         }
 
@@ -56,6 +58,8 @@ namespace DefaultNamespace
             Position = poppedTransform.Position;
             Orientation = poppedTransform.Orientation;
         }
+
+       
     }
 
 }
