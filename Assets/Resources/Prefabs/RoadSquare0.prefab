@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 5049586253696664107}
   - component: {fileID: 7059195295298090721}
   - component: {fileID: -6600256911213086537}
-  m_Layer: 0
+  - component: {fileID: -4482653600909020354}
+  m_Layer: 7
   m_Name: RoadSquare0
-  m_TagString: Untagged
+  m_TagString: Road
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -96,3 +97,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edca71822ca41c544816c46c53e4af55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &-4482653600909020354
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8860745167044761396}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 0.00000008742278, z: 2}
+  m_Center: {x: 0, y: 0, z: 0}

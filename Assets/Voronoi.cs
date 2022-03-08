@@ -1,15 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public static class Voronoi
 {
     public static int[,] voronoiMap = null;
-    public static List<List<Vector2>> roadmap;
     public static Vector2 direction;
     public static List<Quaternion> q;
     public static Dictionary<Vector2, List<Vector2>> testdict;
     public static List<Vector2> testlist;
+    public static Dictionary<Vector2, Quaternion> edges;
 
     public class RoadCross
     {
@@ -63,7 +64,6 @@ public static class Voronoi
         }
 
         int roadPlacement = 0;
-        roadmap = new List<List<Vector2>>();
         bool firstIteration = true;
 
         for (int y = startPos; y < height; y++)
@@ -73,7 +73,11 @@ public static class Voronoi
             {
                 float distance = Mathf.Infinity;
 
-
+                if (x == startPos || y == startPos || x == width - 1 || y == height - 1)
+                {
+                    voronoiMap[x, y] = 0;
+                    continue;
+                }
                 foreach (KeyValuePair<int, Vector2Int> val in locations)
                 {
                     float distanceTo = Vector2Int.Distance(val.Value, new Vector2Int(x, y));
@@ -92,11 +96,15 @@ public static class Voronoi
                     movedUp = false;
                 }
 
+                
+
                 if (roadPlacement != voronoiMap[x, y] || roadPlacement != voronoiMap[x, y - 1] && voronoiMap[x, y - 1] != 0)
                 {
                     if (firstIteration && roadPlacement != voronoiMap[x, y])
                     {
                         testlist = new List<Vector2>();
+                        edges = new Dictionary<Vector2, Quaternion>();
+
                         testdict.Add(new Vector2(roadPlacement, voronoiMap[x, y]), testlist);
 
                         direction = locations[roadPlacement] - locations[voronoiMap[x, y]];
@@ -105,7 +113,6 @@ public static class Voronoi
                         float angle = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg;
 
                         q.Add(Quaternion.Euler(0f, angle, 0f));
-
                         firstIteration = false;
                     }
                   
@@ -113,6 +120,7 @@ public static class Voronoi
                     {
                         testlist = new List<Vector2>();
                         testlist.Add(new Vector2(x, y));
+                        
                         testdict.Add(new Vector2(roadPlacement, voronoiMap[x, y]), testlist);
 
                         direction = locations[roadPlacement] - locations[voronoiMap[x, y]];
@@ -121,6 +129,9 @@ public static class Voronoi
                         float angle = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg;
 
                         q.Add(Quaternion.Euler(0f, angle, 0f));
+
+                        
+
                     }
                     else
                     {
@@ -141,8 +152,6 @@ public static class Voronoi
                 
                     roadPlacement = voronoiMap[x, y];
 
-                    roads.Add(new Vector2(x, y));
-                    roadmap.Add(roads);
 
                 }
             }

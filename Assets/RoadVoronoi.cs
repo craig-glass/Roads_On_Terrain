@@ -33,10 +33,7 @@ public class RoadVoronoi : MonoBehaviour
         //    Instantiate(redCube, new Vector3(location.Key.x, 100, location.Key.y), Quaternion.identity);
         //}
 
-        foreach (Vector2 roadPos in Voronoi.roadmap[0])
-        {
-            Instantiate(greenCube, new Vector3(roadPos.x, 100, roadPos.y), Quaternion.identity);
-        }
+        
         yield return null;
     }
 }

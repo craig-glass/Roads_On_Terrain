@@ -34,9 +34,10 @@ namespace DefaultNamespace
 
         Stack<TurtleTransform> stack = new Stack<TurtleTransform>();
 
-        public Turtle(Vector3 position)
+        public Turtle(Vector3 position, Quaternion angle)
         {
             Position = position;
+            Orientation = angle;
             road = (GameObject)Resources.Load("Prefabs/RoadSquare0", typeof(GameObject));
         }
 

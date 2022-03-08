@@ -34,9 +34,9 @@ public class TerrainGenerator : MonoBehaviour
         terrain = GetComponent<Terrain>();
         terrainData = Terrain.activeTerrain.terrainData;
 
-        MidPointDisplacement();
-        Perlin();
-        SmoothTerrain();
+        //MidPointDisplacement();
+        //Perlin();
+        //SmoothTerrain();
         StartCoroutine(GenerateRoads());
         
         
@@ -246,25 +246,37 @@ public class TerrainGenerator : MonoBehaviour
 
     IEnumerator GenerateRoads()
     {
-        int startPos = Random.Range(1, 500);
-        int endPos = Random.Range(startPos + 250, width);
+        int startPos = Random.Range(1000, 1500);
+        int endPos = startPos + 2500;
 
-        Voronoi.GenerateVoronoi(15, startPos, endPos, endPos);
+
+        Voronoi.GenerateVoronoi(8, startPos, endPos, endPos);
         int qCount = 0;
         foreach (KeyValuePair<Vector2, List<Vector2>> val in Voronoi.testdict)
         {
-            
+            if ((val.Value[0].y - startPos < 15 || val.Value[0].x - startPos < 15 || endPos - val.Value[0].y < 15 || endPos - val.Value[0].x < 15) && !Voronoi.edges.ContainsKey(new Vector2(val.Value[0].x, val.Value[0].y)))
+            {
+                Voronoi.edges.Add(new Vector2(val.Value[0].x, val.Value[0].y), Voronoi.q[qCount]);
+            }
+            else if ((val.Value[val.Value.Count - 1].y - startPos < 15 || val.Value[val.Value.Count - 1].x - startPos < 15 || endPos - val.Value[val.Value.Count - 1].y < 15 || endPos - val.Value[val.Value.Count - 1].x < 15) && !Voronoi.edges.ContainsKey(new Vector2(val.Value[val.Value.Count - 1].x, val.Value[val.Value.Count - 1].y)))
+            {
+                Voronoi.edges.Add(new Vector2(val.Value[val.Value.Count - 1].x, val.Value[val.Value.Count - 1].y), Voronoi.q[qCount] * Quaternion.Euler(0, 180,0));
+            }
+
+            float posfloat = 1 / (float)val.Value.Count;
+
             //Debug.Log("quaternion [" + qCount + "] = " + Voronoi.q[qCount]);
             for (int l = 0; l < val.Value.Count; l++)
             {
-                float posfloat = 1 / (float)val.Value.Count;
+                
 
                 Vector2 position = Vector2.Lerp(val.Value[0], val.Value[val.Value.Count - 1], l * posfloat);
                 Vector3 finalPosition = new Vector3(position.x, 50, position.y);
 
                 Instantiate(greenCube, finalPosition, Voronoi.q[qCount]);
+
+
             }
-            
             qCount++;
         }
         

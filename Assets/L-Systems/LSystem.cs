@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using DefaultNamespace;
+using System.Text;
 
 /*
  * axiom = F
@@ -18,13 +19,13 @@ public class LSystem
     Dictionary<string, Action<Turtle>> turtleCommands;
     Turtle turtle;
 
-    public LSystem(string axiom, Dictionary<string, string> ruleset, Dictionary<string, Action<Turtle>> turtleCommands, Vector3 initialPos)
+    public LSystem(StringBuilder axiom, Dictionary<string, string> ruleset, Dictionary<string, Action<Turtle>> turtleCommands, Vector3 initialPos, Quaternion orientation)
     {
-        sentence = axiom;
+        sentence = axiom.ToString();
         this.ruleset = ruleset;
         this.turtleCommands = turtleCommands;
 
-        turtle = new Turtle(initialPos);
+        turtle = new Turtle(initialPos, orientation);
     }
 
     public IEnumerator DrawSystem()
@@ -35,6 +36,7 @@ public class LSystem
             {
                 command(turtle);
                 yield return null;
+               // yield return new WaitForSeconds(0.5f);
             }
         }
     }
