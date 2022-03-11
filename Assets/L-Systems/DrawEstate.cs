@@ -22,7 +22,7 @@ namespace DefaultNamespace
 
         Dictionary<string, string> ruleset = new Dictionary<string, string>
         {
-            {"A", "FFFFFFFFFF" },
+            {"A", "F" },
             {"B", "AAAAA" },
             {"C", "AAA" },
             {"D", "[GH]AD" },
@@ -35,7 +35,9 @@ namespace DefaultNamespace
 
         Dictionary<string, Action<Turtle>> commands = new Dictionary<string, Action<Turtle>>
         {
-            {"F", turtle => turtle.Translate(new Vector3(0, 0, 2))},
+            {"F", turtle => turtle.Translate(new Vector3(0, 0, 20))},
+            {"O", turtle => turtle.TranslateOffset(new Vector3(0, 0, 10)) },
+            {"o", turtle => turtle.TranslateOffset(new Vector3(0, 0, -10)) },
             {"+", turtle => turtle.Rotate(new Vector3(0, 45f, 0)) },
             {"-", turtle => turtle.Rotate(new Vector3(0, -45f, 0)) },
             {"[", turtle => turtle.Push() },
@@ -123,7 +125,8 @@ namespace DefaultNamespace
             StringBuilder rulesetG = new StringBuilder();
             int index = UnityEngine.Random.Range(1, 3);
             int gAmount = 0;
-            
+            bool firstLoop = true;
+
             roadBlocks *= lengthOfBlocks;
 
             gAmount = UnityEngine.Random.Range(1, 4);
@@ -148,7 +151,15 @@ namespace DefaultNamespace
 
             Loop:
                 Debug.Log("loop = " + index);
-                sb.Append("[");
+                if (firstLoop)
+                {
+                    sb.Append("[");
+                    firstLoop = false;
+                }
+                else
+                {
+                    sb.Append("O[");
+                }
                 //rulesetG.Clear();
                 //gAmount = UnityEngine.Random.Range(1, 4);
                 //while (gAmount > 0)
@@ -157,11 +168,15 @@ namespace DefaultNamespace
                 //    gAmount--;
                 //}
 
-                ruleset["I"] = rulesetI + "[--" + rulesetG + "]I";
+                ruleset["I"] = rulesetI + "O[--o" + rulesetG + "]oI";
 
-                sb.Append("++I");
 
-                sb.Append("]" + rulesetG);
+                sb.Append("++oI");
+
+
+
+
+                sb.Append("]o" + rulesetG);
 
 
                 while (index > 0)
@@ -171,7 +186,7 @@ namespace DefaultNamespace
                     goto Loop;
 
                 }
-                sb.Append("[++");
+                sb.Append("O[++o");
                 while (roadBlocks > 0)
                 {
                     sb.Append("C");
@@ -186,7 +201,16 @@ namespace DefaultNamespace
 
             Loop:
                 Debug.Log("loop = " + index);
-                sb.Append("[");
+                if (firstLoop)
+                {
+                    sb.Append("[");
+                    firstLoop = false;
+                }
+                else
+                {
+                    sb.Append("O[");
+                }
+
                 //rulesetG.Clear();
                 //gAmount = UnityEngine.Random.Range(1, 4);
                 //while (gAmount > 0)
@@ -195,12 +219,14 @@ namespace DefaultNamespace
                 //    gAmount--;
                 //}
                 Debug.Log("G = " + rulesetG);
-                ruleset["J"] = rulesetI + "[++" + rulesetG + "]J";
+                ruleset["J"] = rulesetI + "O[++o" + rulesetG + "]oJ";
 
-                sb.Append("--J");
+
+                sb.Append("--oJ");
+
 
                 Debug.Log("sb G = " + rulesetG);
-                sb.Append("]" + rulesetG);
+                sb.Append("]o" + rulesetG);
 
                 while (index > 0)
                 {
@@ -208,7 +234,7 @@ namespace DefaultNamespace
                     index--;
                     goto Loop;
                 }
-                sb.Append("[--");
+                sb.Append("O[--o");
                 while (roadBlocks > 0)
                 {
                     sb.Append("C");

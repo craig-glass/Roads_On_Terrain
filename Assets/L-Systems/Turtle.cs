@@ -32,20 +32,28 @@ namespace DefaultNamespace
         public Vector3 Position { get; private set; }
         public Quaternion Orientation { get; private set; }
 
+
         Stack<TurtleTransform> stack = new Stack<TurtleTransform>();
 
         public Turtle(Vector3 position, Quaternion angle)
         {
             Position = position;
             Orientation = angle;
-            road = (GameObject)Resources.Load("Prefabs/RoadSquare0", typeof(GameObject));
+            road = (GameObject)Resources.Load("Prefabs/Road10", typeof(GameObject));
         }
 
         public void Translate(Vector3 delta)
         {
             delta = Orientation * delta;
-            GameObject.Instantiate(road, Position, Orientation);
+            
             //Debug.DrawLine(Position, Position + delta, Color.black, 100f);
+            Position += delta;
+            GameObject.Instantiate(road, Position, Orientation);
+        }
+
+        public void TranslateOffset(Vector3 delta)
+        {
+            delta = Orientation * delta;
             Position += delta;
         }
 

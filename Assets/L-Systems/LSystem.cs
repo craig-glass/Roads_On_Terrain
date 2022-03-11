@@ -36,7 +36,7 @@ public class LSystem
             {
                 command(turtle);
                 yield return null;
-               // yield return new WaitForSeconds(0.5f);
+                //yield return new WaitForSeconds(0.5f);
             }
         }
     }
