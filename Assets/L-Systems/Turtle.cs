@@ -39,13 +39,22 @@ namespace DefaultNamespace
         {
             Position = position;
             Orientation = angle;
-            road = (GameObject)Resources.Load("Prefabs/Road10", typeof(GameObject));
+            
         }
 
         public void Translate(Vector3 delta)
         {
+            if (delta.z == 20)
+            {
+                road = (GameObject)Resources.Load("Prefabs/Road10", typeof(GameObject));
+            }
+            else if (delta.z == 60)
+            {
+                road = (GameObject)Resources.Load("Prefabs/Road30", typeof(GameObject));
+            }
+            Debug.Log("delta = " + delta);
             delta = Orientation * delta;
-            
+       
             //Debug.DrawLine(Position, Position + delta, Color.black, 100f);
             Position += delta;
             GameObject.Instantiate(road, Position, Orientation);

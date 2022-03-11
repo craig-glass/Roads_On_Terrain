@@ -15,7 +15,7 @@ namespace DefaultNamespace
      * F -> FF+[+F-F-F]-[-F+F+F]
      * angle = 22.5
      */
-        public GameObject road;
+        
 
         StringBuilder sb;
         int iterations;
@@ -24,7 +24,7 @@ namespace DefaultNamespace
         {
             {"A", "F" },
             {"B", "AAAAA" },
-            {"C", "AAA" },
+            {"C", "f" },
             {"D", "[GH]AD" },
             {"E", "[HG]AE" },
             {"G", "AA" },
@@ -36,8 +36,11 @@ namespace DefaultNamespace
         Dictionary<string, Action<Turtle>> commands = new Dictionary<string, Action<Turtle>>
         {
             {"F", turtle => turtle.Translate(new Vector3(0, 0, 20))},
+            {"f", turtle => turtle.Translate(new Vector3(0, 0, 60)) },
             {"O", turtle => turtle.TranslateOffset(new Vector3(0, 0, 10)) },
             {"o", turtle => turtle.TranslateOffset(new Vector3(0, 0, -10)) },
+            {"P", turtle => turtle.TranslateOffset(new Vector3(0, 0, 30)) },
+            {"p", turtle => turtle.TranslateOffset(new Vector3(0, 0, -30)) },
             {"+", turtle => turtle.Rotate(new Vector3(0, 45f, 0)) },
             {"-", turtle => turtle.Rotate(new Vector3(0, -45f, 0)) },
             {"[", turtle => turtle.Push() },
@@ -88,7 +91,7 @@ namespace DefaultNamespace
                 {
                     if (edge.Key == otherEdge.Key) continue;
 
-                    if (Vector3.Distance(edge.Key, otherEdge.Key) < 300)
+                    if (Vector3.Distance(edge.Key, otherEdge.Key) < 400)
                     {
                         tooclose = true;
                     }
@@ -119,11 +122,11 @@ namespace DefaultNamespace
         StringBuilder Axiom(StringBuilder sb)
         {
             sb = new StringBuilder();
-            int roadBlocks = iterations - 2;
+            int roadBlocks = iterations - 1;
             int lengthOfBlocks = 8 - roadBlocks;
             StringBuilder rulesetI = new StringBuilder();
             StringBuilder rulesetG = new StringBuilder();
-            int index = UnityEngine.Random.Range(1, 3);
+            int index = UnityEngine.Random.Range(1, 6);
             int gAmount = 0;
             bool firstLoop = true;
 
@@ -148,7 +151,7 @@ namespace DefaultNamespace
             if (UnityEngine.Random.Range(0, 100) < 50)
             {
 
-
+                sb.Append("[");
             Loop:
                 Debug.Log("loop = " + index);
                 if (firstLoop)
@@ -160,24 +163,12 @@ namespace DefaultNamespace
                 {
                     sb.Append("O[");
                 }
-                //rulesetG.Clear();
-                //gAmount = UnityEngine.Random.Range(1, 4);
-                //while (gAmount > 0)
-                //{
-                //    rulesetG.Append("AA");
-                //    gAmount--;
-                //}
 
-                ruleset["I"] = rulesetI + "O[--o" + rulesetG + "]oI";
+                ruleset["I"] = rulesetI + "P[--o" + rulesetG + "]pI";
 
-
-                sb.Append("++oI");
-
-
-
+                sb.Append("++pI");
 
                 sb.Append("]o" + rulesetG);
-
 
                 while (index > 0)
                 {
@@ -186,19 +177,23 @@ namespace DefaultNamespace
                     goto Loop;
 
                 }
-                sb.Append("O[++o");
+                sb.Append("O[++p");
                 while (roadBlocks > 0)
                 {
                     sb.Append("C");
                     roadBlocks--;
                 }
                 sb.Append("]");
+                sb.Append("]");
 
+                // next?
+                sb.Append("-");
+                sb.Append("CCC");
 
             }
             else if (UnityEngine.Random.Range(0, 100) <= 100)
             {
-
+                sb.Append("[");
             Loop:
                 Debug.Log("loop = " + index);
                 if (firstLoop)
@@ -210,20 +205,12 @@ namespace DefaultNamespace
                 {
                     sb.Append("O[");
                 }
-
-                //rulesetG.Clear();
-                //gAmount = UnityEngine.Random.Range(1, 4);
-                //while (gAmount > 0)
-                //{
-                //    rulesetG.Append("AA");
-                //    gAmount--;
-                //}
+         
                 Debug.Log("G = " + rulesetG);
-                ruleset["J"] = rulesetI + "O[++o" + rulesetG + "]oJ";
+                ruleset["J"] = rulesetI + "P[++o" + rulesetG + "]pJ";
 
 
-                sb.Append("--oJ");
-
+                sb.Append("--pJ");
 
                 Debug.Log("sb G = " + rulesetG);
                 sb.Append("]o" + rulesetG);
@@ -234,13 +221,16 @@ namespace DefaultNamespace
                     index--;
                     goto Loop;
                 }
-                sb.Append("O[--o");
+                sb.Append("O[--p");
                 while (roadBlocks > 0)
                 {
                     sb.Append("C");
                     roadBlocks--;
                 }
                 sb.Append("]");
+                sb.Append("]");
+
+                // next?
             }
 
             return sb;
