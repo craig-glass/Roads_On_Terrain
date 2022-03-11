@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-public class TerrainGenerator : MonoBehaviour
+public class CityGenerator : MonoBehaviour
 {
     Terrain terrain;
     TerrainData terrainData;
