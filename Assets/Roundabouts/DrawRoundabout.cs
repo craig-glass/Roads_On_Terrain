@@ -63,7 +63,7 @@ namespace DefaultNamespace
             }
 
 
-            StartCoroutine(lSystem.DrawSystem());
+            lSystem.DrawSystem();
 
 
         }

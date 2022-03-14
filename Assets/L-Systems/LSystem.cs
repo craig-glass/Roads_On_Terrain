@@ -28,15 +28,15 @@ public class LSystem
         turtle = new Turtle(initialPos, orientation);
     }
 
-    public IEnumerator DrawSystem()
+    public void DrawSystem()
     {
         foreach (var instruction in sentence)
         {
             if (turtleCommands.TryGetValue(instruction.ToString(), out var command))
             {
                 command(turtle);
-                Debug.Log("position = " + turtle.Position);
-                yield return null;
+                //Debug.Log("position = " + turtle.Position);
+                //yield return null;
                 //yield return new WaitForSeconds(0.5f);
             }
         }
@@ -45,6 +45,7 @@ public class LSystem
     public string GenerateSentence()
     {
         sentence = IterateSentence(sentence);
+        Debug.Log("sentence = " + sentence);
         return sentence;
     }
 

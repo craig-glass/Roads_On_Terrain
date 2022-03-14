@@ -67,16 +67,15 @@ namespace DefaultNamespace
 
         public void TranslateRoundabout(Vector3 delta)
         {
-            road = (GameObject)Resources.Load("Prefabs/Roundabout");
+            delta = Orientation * delta;
+            road = (GameObject)Resources.Load("Prefabs/round");
             GameObject.Instantiate(road, Position, Orientation);
             Position += delta;
         }
 
         public void ExitRoundabout(Vector3 delta)
         {
-            road = (GameObject)Resources.Load("Prefabs/RoadSquare0");
             delta = Orientation * delta;
-            GameObject.Instantiate(road, Position, Orientation);
             Position += delta;
         }
 

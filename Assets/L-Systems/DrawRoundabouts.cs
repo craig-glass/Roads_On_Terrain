@@ -20,24 +20,29 @@ namespace DefaultNamespace
         StringBuilder sb = new StringBuilder();
         int iterations;
 
-        Dictionary<string, string> ruleset = new Dictionary<string, string>
+        Dictionary<string, string> roundaboutRuleset = new Dictionary<string, string>
         {
-            {"A", "R[C]S++[D]" },
+            {"A", "R[E]S++[D]T++D" },
             {"B", "FFFFF" },
             {"C", "111" },
-            {"D", "2[-B]2[++B]2" }
+            {"D", "2p[P2p[++OC[--OC]C[--OC]Co[--OC]]]" },
+            {"E", "Co[--OC[++OC]Co[++OC]]OCo[++OC]" }
         };
 
-        Dictionary<string, Action<Turtle>> commands = new Dictionary<string, Action<Turtle>>
+        Dictionary<string, Action<Turtle>> roundaboutCommands = new Dictionary<string, Action<Turtle>>
         {
             {"R", turtle => turtle.TranslateRoundabout(new Vector3(0, 0, 14.3f)) },
             {"S", turtle => turtle.ExitRoundabout(new Vector3(34.3f, 0, -14.3f)) },
+            {"T", turtle => turtle.ExitRoundabout(new Vector3(34.3f, 0, -34.3f)) },
             {"+", turtle => turtle.Rotate(new Vector3(0, 45f, 0)) },
             {"-", turtle => turtle.Rotate(new Vector3(0, -45f, 0)) },
             {"F", turtle => turtle.Translate(new Vector3(0, 0, 2)) },
             {"1", turtle => turtle.Translate(new Vector3(0, 0, 20)) },
             {"2", turtle => turtle.Translate(new Vector3(0, 0, 60)) },
             {"O", turtle => turtle.TranslateOffset(new Vector3(0, 0, 10)) },
+            {"o", turtle => turtle.TranslateOffset(new Vector3(0, 0, -10)) },
+            {"P", turtle => turtle.TranslateOffset(new Vector3(0, 0, 30)) },
+            {"p", turtle => turtle.TranslateOffset(new Vector3(0, 0, -30)) },
             {"[", turtle => turtle.Push() },
             {"]", turtle => turtle.Pop() },
         };
@@ -53,7 +58,7 @@ namespace DefaultNamespace
             Debug.Log("sb = " + sb);
 
             pos = new Vector3(0, 0, 0);
-            var lSystem = new LSystem(sb, ruleset, commands, pos, Quaternion.identity);
+            var lSystem = new LSystem(sb, roundaboutRuleset, roundaboutCommands, pos, Quaternion.identity);
 
 
             while (iterations > 0)
@@ -64,126 +69,11 @@ namespace DefaultNamespace
             }
 
 
-            StartCoroutine(lSystem.DrawSystem());        
+            lSystem.DrawSystem();        
 
         }
 
-        StringBuilder Axiom(StringBuilder sb)
-        {
-            sb = new StringBuilder();
-            int roadBlocks = iterations - 1;
-            int lengthOfBlocks = 8 - roadBlocks;
-            StringBuilder rulesetI = new StringBuilder();
-            StringBuilder rulesetG = new StringBuilder();
-            int index = UnityEngine.Random.Range(1, 6);
-            int gAmount = 0;
-            bool firstLoop = true;
-
-            roadBlocks *= lengthOfBlocks;
-
-            gAmount = UnityEngine.Random.Range(1, 4);
-            while (gAmount > 0)
-            {
-                rulesetG.Append("AA");
-                gAmount--;
-            }
-
-            while (lengthOfBlocks > 0)
-            {
-                rulesetI.Append("C");
-                lengthOfBlocks--;
-            }
-
-            ruleset["I"] = rulesetI + "[--G]I";
-            ruleset["J"] = rulesetI + "[++G]J";
-
-            if (UnityEngine.Random.Range(0, 100) < 50)
-            {
-
-                sb.Append("[");
-            Loop:
-                Debug.Log("loop = " + index);
-                if (firstLoop)
-                {
-                    sb.Append("[");
-                    firstLoop = false;
-                }
-                else
-                {
-                    sb.Append("O[");
-                }
-
-                ruleset["I"] = rulesetI + "P[--o" + rulesetG + "]pI";
-
-                sb.Append("++pI");
-
-                sb.Append("]o" + rulesetG);
-
-                while (index > 0)
-                {
-
-                    index--;
-                    goto Loop;
-
-                }
-                sb.Append("O[++p");
-                while (roadBlocks > 0)
-                {
-                    sb.Append("C");
-                    roadBlocks--;
-                }
-                sb.Append("]");
-                sb.Append("]");
-
-                // next?
-                sb.Append("-");
-                sb.Append("CCC");
-
-            }
-            else if (UnityEngine.Random.Range(0, 100) <= 100)
-            {
-                sb.Append("[");
-            Loop:
-                Debug.Log("loop = " + index);
-                if (firstLoop)
-                {
-                    sb.Append("[");
-                    firstLoop = false;
-                }
-                else
-                {
-                    sb.Append("O[");
-                }
-         
-                Debug.Log("G = " + rulesetG);
-                ruleset["J"] = rulesetI + "P[++o" + rulesetG + "]pJ";
-
-
-                sb.Append("--pJ");
-
-                Debug.Log("sb G = " + rulesetG);
-                sb.Append("]o" + rulesetG);
-
-                while (index > 0)
-                {
-
-                    index--;
-                    goto Loop;
-                }
-                sb.Append("O[--p");
-                while (roadBlocks > 0)
-                {
-                    sb.Append("C");
-                    roadBlocks--;
-                }
-                sb.Append("]");
-                sb.Append("]");
-
-                // next?
-            }
-
-            return sb;
-        }
+      
 
     }
 }

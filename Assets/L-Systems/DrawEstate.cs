@@ -15,10 +15,12 @@ namespace DefaultNamespace
      * F -> FF+[+F-F-F]-[-F+F+F]
      * angle = 22.5
      */
-        
 
-        StringBuilder sb;
+
+        
         int iterations;
+        Dictionary<string, string> chosenRuleset;
+        Dictionary<string, Action<Turtle>> chosenCommands;
 
         Dictionary<string, string> ruleset = new Dictionary<string, string>
         {
@@ -66,6 +68,33 @@ namespace DefaultNamespace
             {"]", turtle => turtle.Pop() }
         };
 
+        Dictionary<string, string> roundaboutRuleset = new Dictionary<string, string>
+        {
+            {"A", "OR[E]S++[D]T++D" },
+            {"B", "FFFFF" },
+            {"C", "111" },
+            {"D", "2p[P2p[++OC[--OC]C[--OC]Co[--OC]]]" },
+            {"E", "Co[--OC[++OC]Co[++OC]]OCo[++OC]" }
+        };
+
+        Dictionary<string, Action<Turtle>> roundaboutCommands = new Dictionary<string, Action<Turtle>>
+        {
+            {"R", turtle => turtle.TranslateRoundabout(new Vector3(0, 0, 14.3f)) },
+            {"S", turtle => turtle.ExitRoundabout(new Vector3(34.3f, 0, -14.3f)) },
+            {"T", turtle => turtle.ExitRoundabout(new Vector3(34.3f, 0, -34.3f)) },
+            {"+", turtle => turtle.Rotate(new Vector3(0, 45f, 0)) },
+            {"-", turtle => turtle.Rotate(new Vector3(0, -45f, 0)) },
+            {"F", turtle => turtle.Translate(new Vector3(0, 0, 2)) },
+            {"1", turtle => turtle.Translate(new Vector3(0, 0, 20)) },
+            {"2", turtle => turtle.Translate(new Vector3(0, 0, 60)) },
+            {"O", turtle => turtle.TranslateOffset(new Vector3(0, 0, 10)) },
+            {"o", turtle => turtle.TranslateOffset(new Vector3(0, 0, -10)) },
+            {"P", turtle => turtle.TranslateOffset(new Vector3(0, 0, 30)) },
+            {"p", turtle => turtle.TranslateOffset(new Vector3(0, 0, -30)) },
+            {"[", turtle => turtle.Push() },
+            {"]", turtle => turtle.Pop() },
+        };
+
         // Start is called before the first frame update
         void Start()
         {
@@ -76,7 +105,8 @@ namespace DefaultNamespace
             {
                 iterations = UnityEngine.Random.Range(3, 8);
 
-                sb = Axiom(sb);
+                //sb = Axiom(sb);
+                StringBuilder sb = new StringBuilder("A");
                 bool tooclose = false;
 
                 Debug.Log("axiom = " + sb);
@@ -97,7 +127,7 @@ namespace DefaultNamespace
                     continue;
                 }
                 pos = new Vector3(edge.Key.x, 50, edge.Key.y);
-                var lSystem = new LSystem(sb, ruleset, commands, pos, edge.Value);
+                var lSystem = new LSystem(sb, roundaboutRuleset, roundaboutCommands, pos, edge.Value);
 
 
                 while (iterations > 0)
@@ -108,7 +138,7 @@ namespace DefaultNamespace
                 }
 
 
-                StartCoroutine(lSystem.DrawSystem());
+                lSystem.DrawSystem();
             }
 
         }
@@ -199,7 +229,7 @@ namespace DefaultNamespace
                 {
                     sb.Append("O[");
                 }
-         
+
                 Debug.Log("G = " + rulesetG);
                 ruleset["J"] = rulesetI + "P[++o" + rulesetG + "]pJ";
 
