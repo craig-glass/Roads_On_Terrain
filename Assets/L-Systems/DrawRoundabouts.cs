@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DefaultNamespace
 {
-    public class DrawEstate : MonoBehaviour
+    public class DrawRoundabouts : MonoBehaviour
     {
 
         /*
@@ -15,101 +15,56 @@ namespace DefaultNamespace
      * F -> FF+[+F-F-F]-[-F+F+F]
      * angle = 22.5
      */
-        
 
-        StringBuilder sb;
+
+        StringBuilder sb = new StringBuilder();
         int iterations;
 
         Dictionary<string, string> ruleset = new Dictionary<string, string>
         {
-            {"A", "F" },
-            {"B", "AAAAA" },
-            {"C", "f" },
-            {"D", "[GH]AD" },
-            {"E", "[HG]AE" },
-            {"G", "AA" },
-            {"H", "AA" },
-            {"I", "C[--G]I" },
-            {"J", "C[++G]J" }
+            {"A", "R[C]S++[D]" },
+            {"B", "FFFFF" },
+            {"C", "111" },
+            {"D", "2[-B]2[++B]2" }
         };
 
         Dictionary<string, Action<Turtle>> commands = new Dictionary<string, Action<Turtle>>
         {
-            {"F", turtle => turtle.Translate(new Vector3(0, 0, 20))},
-            {"f", turtle => turtle.Translate(new Vector3(0, 0, 60)) },
-            {"O", turtle => turtle.TranslateOffset(new Vector3(0, 0, 10)) },
-            {"o", turtle => turtle.TranslateOffset(new Vector3(0, 0, -10)) },
-            {"P", turtle => turtle.TranslateOffset(new Vector3(0, 0, 30)) },
-            {"p", turtle => turtle.TranslateOffset(new Vector3(0, 0, -30)) },
+            {"R", turtle => turtle.TranslateRoundabout(new Vector3(0, 0, 14.3f)) },
+            {"S", turtle => turtle.ExitRoundabout(new Vector3(34.3f, 0, -14.3f)) },
             {"+", turtle => turtle.Rotate(new Vector3(0, 45f, 0)) },
             {"-", turtle => turtle.Rotate(new Vector3(0, -45f, 0)) },
+            {"F", turtle => turtle.Translate(new Vector3(0, 0, 2)) },
+            {"1", turtle => turtle.Translate(new Vector3(0, 0, 20)) },
+            {"2", turtle => turtle.Translate(new Vector3(0, 0, 60)) },
+            {"O", turtle => turtle.TranslateOffset(new Vector3(0, 0, 10)) },
             {"[", turtle => turtle.Push() },
-            {"]", turtle => turtle.Pop() }
+            {"]", turtle => turtle.Pop() },
         };
 
-        Dictionary<string, string> rulesetCircle = new Dictionary<string, string>
-        {
-            {"Z", "A[C]B[D]AA[C]BB[D]" },
-            {"A", "F+F+F+" },
-            {"B", "f-f-f-" },
-            {"C", "-" },
-            {"D", "+"}
-        };
-
-        Dictionary<string, Action<Turtle>> commandsCircle = new Dictionary<string, Action<Turtle>>
-        {
-            {"F", turtle => turtle.Translate(new Vector3(0.35f, 0, 1.5f))},
-            {"f", turtle => turtle.Translate(new Vector3(-0.35f, 0, 1.5f))},
-            {"+", turtle => turtle.Rotate(new Vector3(0, 25f, 0)) },
-            {"-", turtle => turtle.Rotate(new Vector3(0, -25f, 0)) },
-            {"[", turtle => turtle.Push() },
-            {"]", turtle => turtle.Pop() }
-        };
-
+      
         // Start is called before the first frame update
         void Start()
         {
             Vector3 pos;
+            iterations = 3;
+
+            sb.Append("A");
+            Debug.Log("sb = " + sb);
+
+            pos = new Vector3(0, 0, 0);
+            var lSystem = new LSystem(sb, ruleset, commands, pos, Quaternion.identity);
 
 
-            foreach (KeyValuePair<Vector2, Quaternion> edge in Voronoi.edges)
+            while (iterations > 0)
             {
-                iterations = UnityEngine.Random.Range(3, 8);
-
-                sb = Axiom(sb);
-                bool tooclose = false;
-
-                Debug.Log("axiom = " + sb);
-                foreach (KeyValuePair<Vector2, Quaternion> otherEdge in Voronoi.edges)
-                {
-                    if (edge.Key == otherEdge.Key) continue;
-
-                    if (Vector3.Distance(edge.Key, otherEdge.Key) < 400)
-                    {
-                        tooclose = true;
-                        break;
-                    }
-                }
-
-                if (tooclose)
-                {
-                    Debug.Log("tooclose = " + tooclose);
-                    continue;
-                }
-                pos = new Vector3(edge.Key.x, 50, edge.Key.y);
-                var lSystem = new LSystem(sb, ruleset, commands, pos, edge.Value);
-
-
-                while (iterations > 0)
-                {
-                    // Debug.Log(lSystem.GenerateSentence());
-                    lSystem.GenerateSentence();
-                    iterations--;
-                }
-
-
-                StartCoroutine(lSystem.DrawSystem());
+                // Debug.Log(lSystem.GenerateSentence());
+                lSystem.GenerateSentence();
+                iterations--;
             }
+
+
+            StartCoroutine(lSystem.DrawSystem());        
 
         }
 

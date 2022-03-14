@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8195531408350252430}
   - component: {fileID: 5049586253696664107}
   - component: {fileID: 7059195295298090721}
-  - component: {fileID: -735121316878080287}
   m_Layer: 0
   m_Name: RoadSquareOriginal
   m_TagString: Untagged
@@ -62,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3577cb795224f6e4699dab86e74f02d3, type: 2}
+  - {fileID: 2100000, guid: 3c9c67ddf0fc05a4ca06416210c84996, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -84,15 +83,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &-735121316878080287
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8860745167044761396}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edca71822ca41c544816c46c53e4af55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

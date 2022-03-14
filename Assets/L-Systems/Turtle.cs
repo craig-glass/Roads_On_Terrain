@@ -52,12 +52,32 @@ namespace DefaultNamespace
             {
                 road = (GameObject)Resources.Load("Prefabs/Road30", typeof(GameObject));
             }
+            else
+            {
+                road = (GameObject)Resources.Load("Prefabs/RoadSquareOriginal");
+            }
+
             Debug.Log("delta = " + delta);
             delta = Orientation * delta;
-       
+            GameObject.Instantiate(road, Position, Orientation);
             //Debug.DrawLine(Position, Position + delta, Color.black, 100f);
             Position += delta;
+           
+        }
+
+        public void TranslateRoundabout(Vector3 delta)
+        {
+            road = (GameObject)Resources.Load("Prefabs/Roundabout");
             GameObject.Instantiate(road, Position, Orientation);
+            Position += delta;
+        }
+
+        public void ExitRoundabout(Vector3 delta)
+        {
+            road = (GameObject)Resources.Load("Prefabs/RoadSquare0");
+            delta = Orientation * delta;
+            GameObject.Instantiate(road, Position, Orientation);
+            Position += delta;
         }
 
         public void TranslateOffset(Vector3 delta)

@@ -41,18 +41,6 @@ public class CityGenerator : MonoBehaviour
         
         
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        // This line is to be used with urbanstreetmap roads
-        //Instantiate(redCube, new Vector3(500, 100, 500), Quaternion.identity);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     private void OnApplicationQuit()
     {
@@ -267,43 +255,26 @@ public class CityGenerator : MonoBehaviour
 
             //Debug.Log("quaternion [" + qCount + "] = " + Voronoi.q[qCount]);
             for (int l = 0; l < val.Value.Count; l++)
-            {
-                
-
+            {               
                 Vector2 position = Vector2.Lerp(val.Value[0], val.Value[val.Value.Count - 1], l * posfloat);
                 Vector3 finalPosition = new Vector3(position.x, 50, position.y);
 
                 Instantiate(greenCube, finalPosition, Voronoi.q[qCount]);
-
-
             }
             qCount++;
         }
-        
-        
+               
+        InstantiateVoronoiPoints(Voronoi.locations);
 
-        foreach (KeyValuePair<int, Vector2Int> location in Voronoi.locations)
+        yield return null;
+    }
+
+    // show voronoi points
+    void InstantiateVoronoiPoints(Dictionary<int, Vector2Int> locations)
+    {
+        foreach (KeyValuePair<int, Vector2Int> location in locations)
         {
             Instantiate(redCube, new Vector3(location.Value.x, 100, location.Value.y), Quaternion.identity);
         }
-
-        //foreach (Vector2 roadPos in Voronoi.roadmap[0])
-        //{
-        //    Instantiate(greenCube, new Vector3(roadPos.x, 100, roadPos.y), Voronoi.q);
-        //    //yield return new WaitForSeconds(1);
-        //}
-
-        //for (int i = 1; i <= Voronoi.roadmap[0].Count; i++)
-        //{
-        //    int roadcount = Voronoi.roadmap[0].Count;
-        //    float posfloat = 1 / (float)roadcount;
-
-
-        //    Vector2 position = Vector2.Lerp(Voronoi.roadmap[0][0], Voronoi.roadmap[0][Voronoi.roadmap[0].Count - 1], i * posfloat);
-        //    Vector3 newPosition = new Vector3(position.x, 50, position.y);
-        //    Instantiate(greenCube, newPosition, Voronoi.q);
-        //}
-
-        yield return null;
     }
 }

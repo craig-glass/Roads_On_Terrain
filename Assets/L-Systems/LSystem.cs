@@ -35,6 +35,7 @@ public class LSystem
             if (turtleCommands.TryGetValue(instruction.ToString(), out var command))
             {
                 command(turtle);
+                Debug.Log("position = " + turtle.Position);
                 yield return null;
                 //yield return new WaitForSeconds(0.5f);
             }
