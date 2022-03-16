@@ -28,18 +28,22 @@ public class CityGenerator : MonoBehaviour
     public GameObject redCube;
     public GameObject greenCube;
 
+    // urban area
+    int startPos;
+    int endPos;
+
     private void Awake()
     {
         Debug.Log("Initializing Terrain Data");
         terrain = GetComponent<Terrain>();
         terrainData = Terrain.activeTerrain.terrainData;
 
+
+        GenerateRoads();
         //MidPointDisplacement();
         //Perlin();
         //SmoothTerrain();
-        StartCoroutine(GenerateRoads());
-        
-        
+
     }
 
     private void OnApplicationQuit()
@@ -66,19 +70,17 @@ public class CityGenerator : MonoBehaviour
         int midX, midY;
         int pmidXL, pmidXR, pmidYU, pmidYD;
 
-        //heightMap[0, 0] = UnityEngine.Random.Range(0f, 0.2f);
-        //heightMap[0, terrainData.heightmapResolution - 2] = UnityEngine.Random.Range(0f, 0.2f);
-        //heightMap[terrainData.heightmapResolution - 2, 0] = UnityEngine.Random.Range(0f, 0.2f);
-        //heightMap[terrainData.heightmapResolution - 2, terrainData.heightmapResolution - 2] = UnityEngine.Random.Range(0f, 0.2f);
-
+        Debug.Log("width" + width);
         while (squareSize > 0)
         {
             for (int x = 0; x < width; x += squareSize)
             {
                 for (int y = 0; y < width; y += squareSize)
                 {
+                    
                     cornerX = (x + squareSize);
                     cornerY = (y + squareSize);
+
 
                     midX = (int)(x + squareSize / 2.0f);
                     midY = (int)(y + squareSize / 2.0f);
@@ -232,10 +234,11 @@ public class CityGenerator : MonoBehaviour
         EditorUtility.ClearProgressBar();
     }
 
-    IEnumerator GenerateRoads()
+
+    void GenerateRoads()
     {
-        int startPos = Random.Range(1000, 1500);
-        int endPos = startPos + 2500;
+        startPos = 1500;
+        endPos = startPos + 2000;
 
 
         Voronoi.GenerateVoronoi(8, startPos, endPos, endPos);
@@ -266,7 +269,7 @@ public class CityGenerator : MonoBehaviour
                
         InstantiateVoronoiPoints(Voronoi.locations);
 
-        yield return null;
+        //yield return null;
     }
 
     // show voronoi points

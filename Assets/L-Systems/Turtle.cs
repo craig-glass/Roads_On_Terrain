@@ -57,7 +57,6 @@ namespace DefaultNamespace
                 road = (GameObject)Resources.Load("Prefabs/RoadSquareOriginal");
             }
 
-            Debug.Log("delta = " + delta);
             delta = Orientation * delta;
             GameObject.Instantiate(road, Position, Orientation);
             //Debug.DrawLine(Position, Position + delta, Color.black, 100f);

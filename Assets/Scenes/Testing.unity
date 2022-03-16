@@ -421,15 +421,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lSystem: {fileID: 560285419}
-  roughness: 1.76
-  heightDampenerPower: 2.21
-  perlinXScale: 0.006
-  perlinYScale: 0.006
+  roughness: 2.25
+  heightDampenerPower: 1.55
+  perlinXScale: 0.007
+  perlinYScale: 0.007
   perlinXOffset: 0
   perlinYOffset: 0
-  perlinOctaves: 1
-  perlinPersistance: 8
-  perlinHeightScale: 0.09
+  perlinOctaves: 2
+  perlinPersistance: 4
+  perlinHeightScale: 0.2
   smoothAmount: 60
   redCube: {fileID: 8860745167044761396, guid: 4e9a68a5d9f572847b2ac1b658429aa4, type: 3}
   greenCube: {fileID: 8860745167044761396, guid: 4e9a68a5d9f572847b2ac1b658429aa4, type: 3}
@@ -460,7 +460,7 @@ Terrain:
   m_TreeMaximumFullLODCount: 50
   m_DetailObjectDistance: 80
   m_DetailObjectDensity: 1
-  m_HeightmapPixelError: 5
+  m_HeightmapPixelError: 1
   m_SplatMapDistance: 1000
   m_HeightmapMaximumLOD: 0
   m_ShadowCastingMode: 2

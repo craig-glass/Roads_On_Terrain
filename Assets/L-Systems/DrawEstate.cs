@@ -109,7 +109,6 @@ namespace DefaultNamespace
                 StringBuilder sb = new StringBuilder("A");
                 bool tooclose = false;
 
-                Debug.Log("axiom = " + sb);
                 foreach (KeyValuePair<Vector2, Quaternion> otherEdge in Voronoi.edges)
                 {
                     if (edge.Key == otherEdge.Key) continue;
@@ -123,7 +122,6 @@ namespace DefaultNamespace
 
                 if (tooclose)
                 {
-                    Debug.Log("tooclose = " + tooclose);
                     continue;
                 }
                 pos = new Vector3(edge.Key.x, 50, edge.Key.y);
