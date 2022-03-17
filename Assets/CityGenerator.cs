@@ -25,7 +25,7 @@ public class CityGenerator : MonoBehaviour
 
     int width = 1000;
     int depth = 1000;
-    public GameObject redCube;
+    public GameObject roundabout;
     public GameObject greenCube;
 
     private void Awake()
@@ -250,13 +250,17 @@ public class CityGenerator : MonoBehaviour
             {
                 Voronoi.edges.Add(new Vector2(val.Value[val.Value.Count - 1].x, val.Value[val.Value.Count - 1].y), Voronoi.q[qCount] * Quaternion.Euler(0, 180,0));
             }
-
-            float posfloat = 1 / (float)val.Value.Count;
+            else
+            {
+                Instantiate(roundabout, new Vector3(val.Value[0].x, 50, val.Value[0].y), Quaternion.identity);
+            }
+            float distanceBetweenPoints = Vector2.Distance(val.Value[0], val.Value[val.Value.Count - 1]);
+            float posfloat = 1 / distanceBetweenPoints;
 
             //Debug.Log("quaternion [" + qCount + "] = " + Voronoi.q[qCount]);
-            for (int l = 0; l < val.Value.Count; l++)
+            for (int l = 0; l < (int)distanceBetweenPoints; l++)
             {               
-                Vector2 position = Vector2.Lerp(val.Value[0], val.Value[val.Value.Count - 1], l * posfloat);
+                Vector2 position = Vector2.Lerp(val.Value[0], val.Value[val.Value.Count - 1], l * 2 * posfloat);
                 Vector3 finalPosition = new Vector3(position.x, 50, position.y);
 
                 Instantiate(greenCube, finalPosition, Voronoi.q[qCount]);
@@ -264,17 +268,17 @@ public class CityGenerator : MonoBehaviour
             qCount++;
         }
                
-        InstantiateVoronoiPoints(Voronoi.locations);
+        //InstantiateVoronoiPoints(Voronoi.locations);
 
         yield return null;
     }
 
     // show voronoi points
-    void InstantiateVoronoiPoints(Dictionary<int, Vector2Int> locations)
-    {
-        foreach (KeyValuePair<int, Vector2Int> location in locations)
-        {
-            Instantiate(redCube, new Vector3(location.Value.x, 100, location.Value.y), Quaternion.identity);
-        }
-    }
+    //void InstantiateVoronoiPoints(Dictionary<int, Vector2Int> locations)
+    //{
+    //    foreach (KeyValuePair<int, Vector2Int> location in locations)
+    //    {
+    //        Instantiate(redCube, new Vector3(location.Value.x, 100, location.Value.y), Quaternion.identity);
+    //    }
+    //}
 }
