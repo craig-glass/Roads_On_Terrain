@@ -103,7 +103,7 @@ namespace DefaultNamespace
 
             foreach (KeyValuePair<Vector2, Quaternion> edge in Voronoi.edges)
             {
-                iterations = UnityEngine.Random.Range(3, 8);
+                iterations = UnityEngine.Random.Range(3, 12);
 
                 //sb = Axiom(sb);
                 StringBuilder sb = new StringBuilder("A");
@@ -119,11 +119,14 @@ namespace DefaultNamespace
                         tooclose = true;
                         break;
                     }
+                    if (Vector3.Distance(edge.Key, otherEdge.Key) < 600)
+                    {
+                        iterations = UnityEngine.Random.Range(3, 8);
+                    }
                 }
 
                 if (tooclose)
                 {
-                    Debug.Log("tooclose = " + tooclose);
                     continue;
                 }
                 pos = new Vector3(edge.Key.x, 50, edge.Key.y);
@@ -137,12 +140,12 @@ namespace DefaultNamespace
                     iterations--;
                 }
 
-
                 lSystem.DrawSystem();
             }
 
         }
 
+        // string builder for grid-like roads
         StringBuilder Axiom(StringBuilder sb)
         {
             sb = new StringBuilder();

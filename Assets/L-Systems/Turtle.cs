@@ -29,6 +29,7 @@ namespace DefaultNamespace
         }
 
         GameObject road;
+        GameObject house;
         public Vector3 Position { get; private set; }
         public Quaternion Orientation { get; private set; }
 
@@ -44,9 +45,13 @@ namespace DefaultNamespace
 
         public void Translate(Vector3 delta)
         {
+            house = (GameObject)Resources.Load("Prefabs/House");
             if (delta.z == 20)
             {
                 road = (GameObject)Resources.Load("Prefabs/Road10", typeof(GameObject));
+                Vector3 housePos = Orientation * new Vector3(10, -45, 0);
+                housePos += Position;
+                GameObject.Instantiate(house, housePos, Orientation);
             }
             else if (delta.z == 60)
             {
@@ -57,12 +62,13 @@ namespace DefaultNamespace
                 road = (GameObject)Resources.Load("Prefabs/RoadSquareOriginal");
             }
 
-            Debug.Log("delta = " + delta);
+            
             delta = Orientation * delta;
             GameObject.Instantiate(road, Position, Orientation);
+            
+            
             //Debug.DrawLine(Position, Position + delta, Color.black, 100f);
             Position += delta;
-           
         }
 
         public void TranslateRoundabout(Vector3 delta)
