@@ -74,7 +74,7 @@ namespace DefaultNamespace
             {"B", "FFFFF" },
             {"C", "111" },
             {"D", "2p[P2p[++OC[--OC]C[--OC]Co[--OC]]]" },
-            {"E", "Co[--OC[++OC]Co[++OC]]OCo[++OC]" }
+            {"E", "Co[--OC[++OC]Co[++OC]]OCo[++OC]" },
         };
 
         Dictionary<string, Action<Turtle>> roundaboutCommands = new Dictionary<string, Action<Turtle>>
@@ -105,7 +105,7 @@ namespace DefaultNamespace
             {
                 iterations = UnityEngine.Random.Range(3, 8);
                 StringBuilder sb = new StringBuilder();
-                if (UnityEngine.Random.Range(0, 2) == 0)
+                if (UnityEngine.Random.Range(0, 1) == 1)
                 {
                     sb = Axiom(sb);
                     chosenRuleset = ruleset;
@@ -150,7 +150,7 @@ namespace DefaultNamespace
                     iterations--;
                 }
 
-                StartCoroutine(lSystem.DrawSystem());
+                lSystem.DrawSystem();
             }
 
         }

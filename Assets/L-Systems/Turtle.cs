@@ -45,21 +45,23 @@ namespace DefaultNamespace
 
         public void Translate(Vector3 delta)
         {
-            house = (GameObject)Resources.Load("Prefabs/House");
+            house = (GameObject)Resources.Load("Prefabs/House6");
             if (delta.z == 20)
             {
                 road = (GameObject)Resources.Load("Prefabs/Road10", typeof(GameObject));
                 Vector3 housePos = Orientation * new Vector3(10, -45, 0);
                 housePos += Position;
-                GameObject.Instantiate(house, housePos, Orientation);
+                Vector3 turnHouse = new Vector3(0, 90, 0);
+                GameObject.Instantiate(house, housePos, Orientation * Quaternion.Euler(-turnHouse));
 
                 Vector3 housePosOpposite = Orientation * new Vector3(-10, -45, 0);
                 housePosOpposite += Position;
-                GameObject.Instantiate(house, housePosOpposite, Orientation);
+                GameObject.Instantiate(house, housePosOpposite, Orientation * Quaternion.Euler(turnHouse));
             }
             else if (delta.z == 60)
             {
                 road = (GameObject)Resources.Load("Prefabs/Road30", typeof(GameObject));
+
             }
             else
             {

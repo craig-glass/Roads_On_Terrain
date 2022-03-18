@@ -5,9 +5,15 @@ using UnityEngine;
 public class OnRoad : MonoBehaviour
 {
     public bool isDestroyed = false;
+    Terrain terrain;
 
     private void Start()
     {
+        terrain = Terrain.activeTerrain;
+        Vector3 pos = transform.position;
+        pos.y = terrain.SampleHeight(pos);
+        pos.y += 5f;
+        transform.position = pos;
         BoxCollider coll = GetComponent<BoxCollider>();
         coll.enabled = false;
         coll.enabled = true;
