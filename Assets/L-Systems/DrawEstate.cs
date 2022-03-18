@@ -103,10 +103,20 @@ namespace DefaultNamespace
 
             foreach (KeyValuePair<Vector2, Quaternion> edge in Voronoi.edges)
             {
-                iterations = UnityEngine.Random.Range(3, 12);
-
-                //sb = Axiom(sb);
-                StringBuilder sb = new StringBuilder("A");
+                iterations = UnityEngine.Random.Range(3, 8);
+                StringBuilder sb = new StringBuilder();
+                if (UnityEngine.Random.Range(0, 2) == 0)
+                {
+                    sb = Axiom(sb);
+                    chosenRuleset = ruleset;
+                    chosenCommands = commands;
+                }
+                else
+                {
+                    sb.Append("A");
+                    chosenRuleset = roundaboutRuleset;
+                    chosenCommands = roundaboutCommands;
+                }
                 bool tooclose = false;
 
                 Debug.Log("axiom = " + sb);
@@ -130,7 +140,7 @@ namespace DefaultNamespace
                     continue;
                 }
                 pos = new Vector3(edge.Key.x, 50, edge.Key.y);
-                var lSystem = new LSystem(sb, roundaboutRuleset, roundaboutCommands, pos, edge.Value);
+                var lSystem = new LSystem(sb, chosenRuleset, chosenCommands, pos, edge.Value);
 
 
                 while (iterations > 0)
@@ -140,7 +150,7 @@ namespace DefaultNamespace
                     iterations--;
                 }
 
-                lSystem.DrawSystem();
+                StartCoroutine(lSystem.DrawSystem());
             }
 
         }
@@ -150,7 +160,7 @@ namespace DefaultNamespace
         {
             sb = new StringBuilder();
             int roadBlocks = iterations - 1;
-            int lengthOfBlocks = 8 - roadBlocks;
+            int lengthOfBlocks =  8 - roadBlocks;
             StringBuilder rulesetI = new StringBuilder();
             StringBuilder rulesetG = new StringBuilder();
             int index = UnityEngine.Random.Range(1, 6);
@@ -188,14 +198,14 @@ namespace DefaultNamespace
                 }
                 else
                 {
-                    sb.Append("O[");
+                    sb.Append("o[");
                 }
 
-                ruleset["I"] = rulesetI + "P[--o" + rulesetG + "]pI";
+                ruleset["I"] = rulesetI + "p[--O" + rulesetG + "]PI";
 
-                sb.Append("++pI");
+                sb.Append("++PI");
 
-                sb.Append("]o" + rulesetG);
+                sb.Append("]O" + rulesetG);
 
                 while (index > 0)
                 {
@@ -204,7 +214,7 @@ namespace DefaultNamespace
                     goto Loop;
 
                 }
-                sb.Append("O[++p");
+                sb.Append("o[++P");
                 while (roadBlocks > 0)
                 {
                     sb.Append("C");
@@ -214,8 +224,6 @@ namespace DefaultNamespace
                 sb.Append("]");
 
                 // next?
-                sb.Append("-");
-                sb.Append("CCC");
 
             }
             else if (UnityEngine.Random.Range(0, 100) <= 100)
@@ -230,17 +238,17 @@ namespace DefaultNamespace
                 }
                 else
                 {
-                    sb.Append("O[");
+                    sb.Append("o[");
                 }
 
                 Debug.Log("G = " + rulesetG);
-                ruleset["J"] = rulesetI + "P[++o" + rulesetG + "]pJ";
+                ruleset["J"] = rulesetI + "p[++O" + rulesetG + "]PJ";
 
 
-                sb.Append("--pJ");
+                sb.Append("--PJ");
 
                 Debug.Log("sb G = " + rulesetG);
-                sb.Append("]o" + rulesetG);
+                sb.Append("]O" + rulesetG);
 
                 while (index > 0)
                 {
@@ -248,7 +256,7 @@ namespace DefaultNamespace
                     index--;
                     goto Loop;
                 }
-                sb.Append("O[--p");
+                sb.Append("o[--P");
                 while (roadBlocks > 0)
                 {
                     sb.Append("C");

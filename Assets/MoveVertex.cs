@@ -28,6 +28,7 @@ public class MoveVertex : MonoBehaviour
         worldspaceVertices = new Vector3[vertices.Length];
         Vector3 pos = transform.position;
         pos.y = Terrain.activeTerrain.SampleHeight(transform.position);
+        pos.y += 0.25f;
         transform.position = pos;
 
 

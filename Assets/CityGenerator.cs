@@ -26,7 +26,7 @@ public class CityGenerator : MonoBehaviour
     int width = 1000;
     int depth = 1000;
     public GameObject roundabout;
-    public GameObject greenCube;
+    public GameObject roadPiece;
 
     private void Awake()
     {
@@ -263,7 +263,7 @@ public class CityGenerator : MonoBehaviour
                 Vector2 position = Vector2.Lerp(val.Value[0], val.Value[val.Value.Count - 1], l * 2 * posfloat);
                 Vector3 finalPosition = new Vector3(position.x, 50, position.y);
 
-                Instantiate(greenCube, finalPosition, Voronoi.q[qCount]);
+                Instantiate(roadPiece, finalPosition, Voronoi.q[qCount]);
             }
             qCount++;
         }

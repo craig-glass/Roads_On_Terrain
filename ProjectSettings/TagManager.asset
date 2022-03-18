@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Terrain
   - Road
+  - House
   layers:
   - Default
   - TransparentFX
@@ -16,7 +17,7 @@ TagManager:
   - Terrain
   - Road
   - Roundabout
-  - 
+  - Building
   - 
   - 
   - 

@@ -28,7 +28,7 @@ public class LSystem
         turtle = new Turtle(initialPos, orientation);
     }
 
-    public void DrawSystem()
+    public IEnumerator DrawSystem()
     {
         foreach (var instruction in sentence)
         {
@@ -36,8 +36,8 @@ public class LSystem
             {
                 command(turtle);
                 //Debug.Log("position = " + turtle.Position);
-                //yield return null;
-                //yield return new WaitForSeconds(0.5f);
+                yield return null;
+               // yield return new WaitForSeconds(0.5f);
             }
         }
     }

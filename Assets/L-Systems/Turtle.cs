@@ -52,6 +52,10 @@ namespace DefaultNamespace
                 Vector3 housePos = Orientation * new Vector3(10, -45, 0);
                 housePos += Position;
                 GameObject.Instantiate(house, housePos, Orientation);
+
+                Vector3 housePosOpposite = Orientation * new Vector3(-10, -45, 0);
+                housePosOpposite += Position;
+                GameObject.Instantiate(house, housePosOpposite, Orientation);
             }
             else if (delta.z == 60)
             {

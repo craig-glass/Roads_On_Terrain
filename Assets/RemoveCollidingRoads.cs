@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RemoveCollidingRoads : MonoBehaviour
 {
+    public bool isDestroyed = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +26,11 @@ public class RemoveCollidingRoads : MonoBehaviour
         {
             Debug.Log("..." + other.name);
             Destroy(other.gameObject);
+        }
+        if (!other.gameObject.GetComponent<RemoveCollidingRoads>().isDestroyed)
+        {
+            isDestroyed = true;
+            Destroy(gameObject);
         }
     }
     
