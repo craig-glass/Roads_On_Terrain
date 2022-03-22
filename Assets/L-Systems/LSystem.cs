@@ -45,7 +45,6 @@ public class LSystem
     public string GenerateSentence()
     {
         sentence = IterateSentence(sentence);
-        Debug.Log("sentence = " + sentence);
         return sentence;
     }
 

@@ -52,7 +52,6 @@ namespace DefaultNamespace
 
             sb.Append("Y");
 
-            Debug.Log("axiom = " + sb);
 
             pos = new Vector3(0, 0, 0);
             var lSystem = new LSystem(sb, rulesetCircle, commandsCircle, pos, Quaternion.identity);

@@ -24,7 +24,6 @@ public class RemoveCollidingRoads : MonoBehaviour
     {
         if (other.CompareTag("Road"))
         {
-            Debug.Log("..." + other.name);
             Destroy(other.gameObject);
         }
         if (!other.gameObject.GetComponent<RemoveCollidingRoads>().isDestroyed)

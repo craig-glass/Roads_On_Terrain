@@ -27,6 +27,7 @@ public class CityGenerator : MonoBehaviour
     int depth = 1000;
     public GameObject roundabout;
     public GameObject roadPiece;
+    public GameObject midpointRoad;
 
     private void Awake()
     {
@@ -38,8 +39,8 @@ public class CityGenerator : MonoBehaviour
         //Perlin();
         //SmoothTerrain();
         StartCoroutine(GenerateRoads());
-        
-        
+
+
     }
 
     private void OnApplicationQuit()
@@ -238,7 +239,7 @@ public class CityGenerator : MonoBehaviour
         int endPos = startPos + 2500;
 
 
-        Voronoi.GenerateVoronoi(8, startPos, endPos, endPos);
+        Voronoi.GenerateVoronoi(9, startPos, endPos, endPos);
         int qCount = 0;
         foreach (KeyValuePair<Vector2, List<Vector2>> val in Voronoi.testdict)
         {
@@ -248,26 +249,54 @@ public class CityGenerator : MonoBehaviour
             }
             else if ((val.Value[val.Value.Count - 1].y - startPos < 15 || val.Value[val.Value.Count - 1].x - startPos < 15 || endPos - val.Value[val.Value.Count - 1].y < 15 || endPos - val.Value[val.Value.Count - 1].x < 15) && !Voronoi.edges.ContainsKey(new Vector2(val.Value[val.Value.Count - 1].x, val.Value[val.Value.Count - 1].y)))
             {
-                Voronoi.edges.Add(new Vector2(val.Value[val.Value.Count - 1].x, val.Value[val.Value.Count - 1].y), Voronoi.q[qCount] * Quaternion.Euler(0, 180,0));
+                Voronoi.edges.Add(new Vector2(val.Value[val.Value.Count - 1].x, val.Value[val.Value.Count - 1].y), Voronoi.q[qCount] * Quaternion.Euler(0, 180, 0));
             }
             else
             {
                 Instantiate(roundabout, new Vector3(val.Value[0].x, 50, val.Value[0].y), Quaternion.identity);
+
+
+                foreach (KeyValuePair<Vector2, List<Vector2>> otherVal in Voronoi.testdict)
+                {
+                    if (val.Key == otherVal.Key || Voronoi.edges.ContainsKey(new Vector2(otherVal.Value[0].x, otherVal.Value[0].y)) || Voronoi.edges.ContainsKey(new Vector2(otherVal.Value[otherVal.Value.Count - 1].x, otherVal.Value[otherVal.Value.Count - 1].y))) continue;
+
+                    if (val.Key.y == otherVal.Key.x)
+                    {
+                        Debug.Log("================================================================================" + val.Key + " " + otherVal.Key);
+
+                        float disBetweenMidpoints = Vector2.Distance(val.Value[val.Value.Count / 2], otherVal.Value[otherVal.Value.Count / 2]);
+                        Vector2 orientation = otherVal.Value[otherVal.Value.Count / 2] - val.Value[val.Value.Count / 2];
+                        float angle = Mathf.Atan2(orientation.x, orientation.y) * Mathf.Rad2Deg;
+                        float posMidpointFloat = 1 / disBetweenMidpoints;
+
+                        Debug.Log("_______________________________________________" + angle);
+
+                        for (int m = 0; m < (int)disBetweenMidpoints; m++)
+                        {
+                            Vector2 posMidpointRoad = Vector2.Lerp(val.Value[val.Value.Count / 2], otherVal.Value[otherVal.Value.Count / 2], m * 8 * posMidpointFloat);
+                            Vector3 finalMidpointRoadPosition = new Vector3(posMidpointRoad.x, 50, posMidpointRoad.y);
+
+                            Instantiate(midpointRoad, finalMidpointRoadPosition, Quaternion.Euler(0, angle, 0));
+                        }
+
+
+                    }
+                }
+
             }
             float distanceBetweenPoints = Vector2.Distance(val.Value[0], val.Value[val.Value.Count - 1]);
             float posfloat = 1 / distanceBetweenPoints;
 
-            //Debug.Log("quaternion [" + qCount + "] = " + Voronoi.q[qCount]);
             for (int l = 0; l < (int)distanceBetweenPoints; l++)
-            {               
-                Vector2 position = Vector2.Lerp(val.Value[0], val.Value[val.Value.Count - 1], l * 2 * posfloat);
+            {
+                Vector2 position = Vector2.Lerp(val.Value[0], val.Value[val.Value.Count - 1], l * 8 * posfloat);
                 Vector3 finalPosition = new Vector3(position.x, 50, position.y);
 
                 Instantiate(roadPiece, finalPosition, Voronoi.q[qCount]);
             }
             qCount++;
         }
-               
+
         //InstantiateVoronoiPoints(Voronoi.locations);
 
         yield return null;

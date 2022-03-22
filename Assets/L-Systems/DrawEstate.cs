@@ -70,7 +70,7 @@ namespace DefaultNamespace
 
         Dictionary<string, string> roundaboutRuleset = new Dictionary<string, string>
         {
-            {"A", "OR[E]S++[D]T++D" },
+            {"A", "PR[E]S++[D]T++D" },
             {"B", "FFFFF" },
             {"C", "111" },
             {"D", "2p[P2p[++OC[--OC]C[--OC]Co[--OC]]]" },
@@ -79,9 +79,9 @@ namespace DefaultNamespace
 
         Dictionary<string, Action<Turtle>> roundaboutCommands = new Dictionary<string, Action<Turtle>>
         {
-            {"R", turtle => turtle.TranslateRoundabout(new Vector3(0, 0, 14.3f)) },
-            {"S", turtle => turtle.ExitRoundabout(new Vector3(34.3f, 0, -14.3f)) },
-            {"T", turtle => turtle.ExitRoundabout(new Vector3(34.3f, 0, -34.3f)) },
+            {"R", turtle => turtle.TranslateRoundabout(new Vector3(0, 0, 24.3f)) },
+            {"S", turtle => turtle.ExitRoundabout(new Vector3(44.3f, 0, -24.3f)) },
+            {"T", turtle => turtle.ExitRoundabout(new Vector3(44.3f, 0, -44.3f)) },
             {"+", turtle => turtle.Rotate(new Vector3(0, 45f, 0)) },
             {"-", turtle => turtle.Rotate(new Vector3(0, -45f, 0)) },
             {"F", turtle => turtle.Translate(new Vector3(0, 0, 2)) },
@@ -119,7 +119,6 @@ namespace DefaultNamespace
                 }
                 bool tooclose = false;
 
-                Debug.Log("axiom = " + sb);
                 foreach (KeyValuePair<Vector2, Quaternion> otherEdge in Voronoi.edges)
                 {
                     if (edge.Key == otherEdge.Key) continue;

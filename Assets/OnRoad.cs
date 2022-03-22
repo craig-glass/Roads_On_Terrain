@@ -22,7 +22,6 @@ public class OnRoad : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Road"))
         {
-            Debug.Log("other = " + other.gameObject.name);
             Destroy(gameObject);
         }
         if (!other.gameObject.GetComponent<OnRoad>().isDestroyed)
