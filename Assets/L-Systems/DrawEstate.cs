@@ -70,7 +70,7 @@ namespace DefaultNamespace
 
         Dictionary<string, string> roundaboutRuleset = new Dictionary<string, string>
         {
-            {"A", "PR[E]S++[D]T++D" },
+            {"A", "PR[E]S++[D]T++D++A" },
             {"B", "FFFFF" },
             {"C", "111" },
             {"D", "2p[P2p[++OC[--OC]C[--OC]Co[--OC]]]" },

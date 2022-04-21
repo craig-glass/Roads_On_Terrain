@@ -433,6 +433,7 @@ MonoBehaviour:
   smoothAmount: 6
   roundabout: {fileID: 4703775968894230178, guid: 6692f388901863545932664d3ab1dc12, type: 3}
   roadPiece: {fileID: 8860745167044761396, guid: 4e9a68a5d9f572847b2ac1b658429aa4, type: 3}
+  midpointRoad: {fileID: 8860745167044761396, guid: 4e9a68a5d9f572847b2ac1b658429aa4, type: 3}
 --- !u!154 &1640233938
 TerrainCollider:
   m_ObjectHideFlags: 0

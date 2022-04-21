@@ -29,15 +29,16 @@ public class CityGenerator : MonoBehaviour
     public GameObject roadPiece;
     public GameObject midpointRoad;
 
+
     private void Awake()
     {
         Debug.Log("Initializing Terrain Data");
         terrain = GetComponent<Terrain>();
         terrainData = Terrain.activeTerrain.terrainData;
 
-        //MidPointDisplacement();
-        //Perlin();
-        //SmoothTerrain();
+        MidPointDisplacement();
+        Perlin();
+        SmoothTerrain();
         StartCoroutine(GenerateRoads());
 
 
@@ -261,15 +262,13 @@ public class CityGenerator : MonoBehaviour
                     if (val.Key == otherVal.Key || Voronoi.edges.ContainsKey(new Vector2(otherVal.Value[0].x, otherVal.Value[0].y)) || Voronoi.edges.ContainsKey(new Vector2(otherVal.Value[otherVal.Value.Count - 1].x, otherVal.Value[otherVal.Value.Count - 1].y))) continue;
 
                     if (val.Key.y == otherVal.Key.x)
-                    {
-                        Debug.Log("================================================================================" + val.Key + " " + otherVal.Key);
-
+                    {                                  
+                                               
                         float disBetweenMidpoints = Vector2.Distance(val.Value[val.Value.Count / 2], otherVal.Value[otherVal.Value.Count / 2]);
                         Vector2 orientation = otherVal.Value[otherVal.Value.Count / 2] - val.Value[val.Value.Count / 2];
                         float angle = Mathf.Atan2(orientation.x, orientation.y) * Mathf.Rad2Deg;
                         float posMidpointFloat = 1 / disBetweenMidpoints;
 
-                        Debug.Log("_______________________________________________" + angle);
 
                         for (int m = 0; m < (int)disBetweenMidpoints; m++)
                         {
@@ -277,9 +276,8 @@ public class CityGenerator : MonoBehaviour
                             Vector3 finalMidpointRoadPosition = new Vector3(posMidpointRoad.x, 50, posMidpointRoad.y);
 
                             Instantiate(midpointRoad, finalMidpointRoadPosition, Quaternion.Euler(0, angle, 0));
+                            
                         }
-
-
                     }
                 }
 
